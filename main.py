@@ -22,25 +22,51 @@ html = """
     <style>
         body {
             font-family: Agency FB, sans-serif;
-            background-color: #f0f0f0;
+        }
+        .grid { 
+            display: flex; 
+            flex-wrap: wrap;
+            gap: 20px; 
+        }
+        .card { 
+            background: white; 
+            padding: 15px; 
+            border-radius: 8px; 
+            text-align: center; 
+            width: 150px; 
+            box-shadow: 0 2px 5px rgba(0,0,0,0.5); 
+        }
+        .card img { 
+            width: 80px; 
+            height: 80px; 
+            border-radius: 50%; 
         }
     </style>
 </head>
 <body>
     <h1>FGO Servants</h1>
-    {% for servant in servants %}
-    <div style="margin-bottom: 10px;">
-        <img src="{{ servant.face_url }}" width="50" style="vertical-align: middle;">
-        <b>ID:{{ servant.servant_id }} | {{ servant.name }} | Class: {{ servant.class_name.capitalize() }}</b>
+    <div class="grid">
+        {% for servant in servants %}
+        <div class="card">
+            <img src="{{ servant.face_url }}" alt="{{ servant.name }}">
+            <p style="font-size: 18px; 
+                font-weight: bold; 
+                margin: 10px 0 5px;
+                ">ID:{{ servant.servant_id }} | {{ servant.name }}
+            </p>
+            <p style="font-size: 16px; 
+                color: gray; margin: 0;
+                ">{{ servant.class_name.capitalize() }}
+            </p>
+        </div>
+        {% endfor %}
     </div>
-    {% endfor %}
 </body>
 """
 
 
 @app.route("/")
 def index():
-    # วนลูปเอาข้อมูลมาต่อ String
     servants = Servant.query.all()
     return render_template_string(html, servants=servants)
 
