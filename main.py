@@ -21,6 +21,7 @@ html = """
     <title>FGO Servants</title>
     <style>
         body {
+            background-color: lightgray;
             font-family: Agency FB, sans-serif;
         }
         .grid { 
