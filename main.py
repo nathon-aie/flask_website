@@ -17,13 +17,24 @@ class Servant(db.Model):
 
 
 html = """
-<h1>FGO Servants</h1>
-{% for servant in servants %}
-<div style="margin-bottom: 10px;">
-    <img src="{{ servant.face_url }}" width="50" style="vertical-align: middle;">
-    <b>ID:{{ servant.servant_id }} | {{ servant.name }} (Class: {{ servant.class_name.capitalize() }})</b>
-</div>
-{% endfor %}
+<head>
+    <title>FGO Servants</title>
+    <style>
+        body {
+            font-family: Agency FB, sans-serif;
+            background-color: #f0f0f0;
+        }
+    </style>
+</head>
+<body>
+    <h1>FGO Servants</h1>
+    {% for servant in servants %}
+    <div style="margin-bottom: 10px;">
+        <img src="{{ servant.face_url }}" width="50" style="vertical-align: middle;">
+        <b>ID:{{ servant.servant_id }} | {{ servant.name }} | Class: {{ servant.class_name.capitalize() }}</b>
+    </div>
+    {% endfor %}
+</body>
 """
 
 
