@@ -12,7 +12,6 @@
         <a href="/"
             style="padding: 10px; background: #ffffff; color: rgb(0, 0, 0); text-decoration: none; border-radius: 5px;">
             <b>All Servants</b></a>
-
         <a href="/class/saber"
             style="padding: 10px; background: #ffffff; color: rgb(0, 0, 0); text-decoration: none; border-radius: 5px;">
             <b>Saber</b></a>
@@ -35,6 +34,7 @@
             style="padding: 10px; background: #ffffff; color: rgb(0, 0, 0); text-decoration: none; border-radius: 5px;">
             <b>Berserker</b></a>
     </div>
+
     <div style="margin-bottom: 20px;">
         <a href="/class/ruler"
             style="padding: 10px; background: #ffffff; color: rgb(0, 0, 0); text-decoration: none; border-radius: 5px;">
@@ -61,20 +61,23 @@
             style="padding: 10px; background: #ffffff; color: rgb(0, 0, 0); text-decoration: none; border-radius: 5px;">
             <b>Beast</b></a>
     </div>
+
     <div class="grid">
         {% for servant in servants %}
-        <div class="card">
-            <img src="{{ servant.face_url }}" alt="{{ servant.name }}">
-            <p style="font-size: 18px; 
+        <a href="/servant/{{ servant.name }}" style="text-decoration: none; color: black;">
+            <div class="card">
+                <img src="{{ servant.face_url }}" alt="{{ servant.name }}">
+                <p style="font-size: 18px; 
                 font-weight: bold; 
                 margin: 10px 0 5px;
                 ">ID:{{ servant.servant_id }} | {{ servant.name }}
-            </p>
-            <p style="font-size: 16px; 
+                </p>
+                <p style="font-size: 16px; 
                 color: gray; margin: 0;
                 ">{{ servant.class_name.capitalize() }}
-            </p>
-        </div>
+                </p>
+            </div>
+        </a>
         {% endfor %}
     </div>
 </body>
