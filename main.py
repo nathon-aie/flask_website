@@ -22,5 +22,11 @@ def index():
     return render_template("index.html", servants=servants)
 
 
+@app.route("/saber")
+def saber_page():
+    saber_servants = Servant.query.filter_by(class_name="saber").all()
+    return render_template("index.html", servants=saber_servants)
+
+
 if __name__ == "__main__":
     app.run(debug=True)
