@@ -3,33 +3,7 @@
 
 <head>
     <title>FGO Servants</title>
-    <style>
-        body {
-            background-color: lightgray;
-            font-family: Agency FB, sans-serif;
-        }
-
-        .grid {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 20px;
-        }
-
-        .card {
-            background: white;
-            padding: 15px;
-            border-radius: 8px;
-            text-align: center;
-            width: 150px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
-        }
-
-        .card img {
-            width: 80px;
-            height: 80px;
-            border-radius: 50%;
-        }
-    </style>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 
 <body>
