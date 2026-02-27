@@ -24,3 +24,36 @@ body {
     height: 80px;
     border-radius: 50%;
 }
+
+/* =========================================
+   สไตล์สำหรับหน้า Servant Detail
+========================================= */
+
+.stat-box {
+    width: 48%;
+    background: #ffffff;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    color: #333;
+}
+
+.stat-box p {
+    margin: 8px 0;
+}
+
+.detail-img {
+    margin: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+.detail-img img {
+    width: 100%;
+    height: auto;
+    border: 5px solid;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+}

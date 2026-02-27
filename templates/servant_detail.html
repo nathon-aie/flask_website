@@ -10,23 +10,34 @@
 
 <body>
     <div style="margin: 20px;">
-        <a href="/class/all" style="text-decoration: none; font-size: 18px;">← Back to All Servants</a>
+        <a href="/class/all" class="back-link">← Back to All Servants</a>
 
-        <div style="margin-top: 20px; text-align: center;">
-            <img src="{{ servant.face_url_asc1 }}" alt="{{ servant.name }} Ascension 1"
-                style="width: 256px; border-radius: 10px;">
-            <img src="{{ servant.face_url_asc2 }}" alt="{{ servant.name }} Ascension 2"
-                style="width: 256px; border-radius: 10px; margin-left: 20px;">
-            <img src="{{ servant.face_url_asc3 }}" alt="{{ servant.name }} Ascension 3"
-                style="width: 256px; border-radius: 10px; margin-left: 20px;">
-            <img src="{{ servant.face_url_asc4 }}" alt="{{ servant.name }} Ascension 4"
-                style="width: 256px; border-radius: 10px; margin-left: 20px;">
-            <h1>{{ servant.name }}</h1>
-            <p style="font-size: 20px; color: gray;">
-                <b>ID:</b> {{ servant.servant_id }} | <b>Class:</b> {{
-                servant.class_name.capitalize() }}
-            </p>
+        <!-- <div> -->
+        <div class="detail-img">
+            <img src="{{ servant.graph_url_asc1 }}" alt="{{ servant.name }} Ascension 1">
+            <img src="{{ servant.graph_url_asc2 }}" alt="{{ servant.name }} Ascension 2">
+            <img src="{{ servant.graph_url_asc3 }}" alt="{{ servant.name }} Ascension 3">
+            <img src="{{ servant.graph_url_asc4 }}" alt="{{ servant.name }} Ascension 4">
         </div>
+        <div>
+            <h1>{{ servant.name }}</h1>
+            <p>{{ servant.class_name.capitalize() }}</p>
+        </div>
+
+        <hr>
+
+        <div>
+            <div class="stat-box">
+                <p><b>ID:</b> {{ servant.servant_id }}</p>
+                <p><b>Rarity:</b> {{ servant.rarity }} ⭐</p>
+            </div>
+            <div class="stat-box">
+                <p><b>Max ATK:</b> {{ servant.atk_max }} ⚔️</p>
+                <p><b>Max HP:</b> {{ servant.hp_max }} ❤️</p>
+            </div>
+        </div>
+
+        <!-- </div>  -->
     </div>
 </body>
 
