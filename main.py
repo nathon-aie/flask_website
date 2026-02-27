@@ -20,6 +20,7 @@ class Servant(db.Model):
     hp_max = db.Column(db.Integer)
 
 
+@app.route("/")
 @app.route("/class/all")
 def index():
     servants = Servant.query.all()
@@ -32,7 +33,7 @@ def class_page(class_name):
     return render_template("index.html", servants=servants)
 
 
-@app.route("/servant/<int:servant_id>/<string:name>")
+@app.route("/servant/<int:servant_id>/<path:name>")
 def servant_detail(servant_id, name):
     # ดึงข้อมูลจากฐานข้อมูลเฉพาะตัวที่ ID ตรงกับที่คลิกเข้ามา
     servant = Servant.query.filter_by(servant_id=servant_id).first()
