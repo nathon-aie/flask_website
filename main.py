@@ -18,7 +18,9 @@ class Servant(db.Model):
     graph_url_asc3 = db.Column(db.String(255))
     graph_url_asc4 = db.Column(db.String(255))
     rarity = db.Column(db.String(20))
+    atk_base = db.Column(db.Integer)
     atk_max = db.Column(db.Integer)
+    hp_base = db.Column(db.Integer)
     hp_max = db.Column(db.Integer)
 
 

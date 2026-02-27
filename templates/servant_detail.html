@@ -19,7 +19,7 @@
             <img src="{{ servant.graph_url_asc3 }}" alt="{{ servant.name }} Ascension 3">
             <img src="{{ servant.graph_url_asc4 }}" alt="{{ servant.name }} Ascension 4">
         </div>
-        <div>
+        <div style="font-size: 20px;">
             <h1>{{ servant.name }}</h1>
             <p>{{ servant.class_name.capitalize() }}</p>
         </div>
@@ -27,13 +27,13 @@
         <hr>
 
         <div>
-            <div class="stat-box">
+            <div class="stat-box" style="font-size: 20px;">
                 <p><b>ID:</b> {{ servant.servant_id }}</p>
                 <p><b>Rarity:</b> {{ servant.rarity }} ⭐</p>
             </div>
-            <div class="stat-box">
-                <p><b>Max ATK:</b> {{ servant.atk_max }} ⚔️</p>
-                <p><b>Max HP:</b> {{ servant.hp_max }} ❤️</p>
+            <div class="stat-box" style="font-size: 20px;">
+                <p><b>ATK:</b> {{ servant.atk_base }} → {{ servant.atk_max }} ⚔️</p>
+                <p><b>Max HP:</b> {{ servant.hp_base }} → {{ servant.hp_max }} ❤️</p>
             </div>
         </div>
 

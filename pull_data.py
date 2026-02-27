@@ -33,7 +33,9 @@ def fetch_and_save_data():
                     graph_url_asc3=data["extraAssets"]["charaGraph"]["ascension"]["3"],
                     graph_url_asc4=data["extraAssets"]["charaGraph"]["ascension"]["4"],
                     rarity=data["rarity"],
+                    atk_base=data["atkBase"],
                     atk_max=data["atkMax"],
+                    hp_base=data["hpBase"],
                     hp_max=data["hpMax"],
                 )
                 db.session.add(new_servant)
