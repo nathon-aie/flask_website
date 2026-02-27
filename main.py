@@ -32,7 +32,7 @@ def class_page(class_name):
 def servant_detail(servant_id, name):
     # ดึงข้อมูลจากฐานข้อมูลเฉพาะตัวที่ ID ตรงกับที่คลิกเข้ามา
     servant = Servant.query.filter_by(servant_id=servant_id).first()
-    return f"<h1>{servant.name} (Class: {servant.class_name})</h1>"
+    return render_template("servant_detail.html", servant=servant)
 
 
 if __name__ == "__main__":
