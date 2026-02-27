@@ -20,6 +20,9 @@ def fetch_and_save_data():
                 s for s in all_servants if s["type"] in ["normal", "heroine"]
             ]
 
+            valid_servants = sorted(valid_servants, key=lambda x: x["collectionNo"])
+            valid_servants = valid_servants[1:]  # servant ตัวแรกเป็น dummy data ที่ไม่ต้องการ
+
             for data in valid_servants:
                 new_servant = Servant(
                     servant_id=data["collectionNo"],
