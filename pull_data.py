@@ -24,6 +24,9 @@ def fetch_and_save_data():
             valid_servants = valid_servants[1:]  # servant ตัวแรกเป็น dummy data ที่ไม่ต้องการ
 
             for data in valid_servants:
+                raw_traits = data.get("traits", [])
+                trait_names = [t["name"] for t in raw_traits]
+                traits_string = ", ".join(trait_names)
                 new_servant = Servant(
                     servant_id=data["collectionNo"],
                     name=data["name"],
@@ -37,6 +40,7 @@ def fetch_and_save_data():
                     atk_max=data["atkMax"],
                     hp_base=data["hpBase"],
                     hp_max=data["hpMax"],
+                    traits=traits_string,
                 )
                 db.session.add(new_servant)
 

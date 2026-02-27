@@ -22,6 +22,7 @@ class Servant(db.Model):
     atk_max = db.Column(db.Integer)
     hp_base = db.Column(db.Integer)
     hp_max = db.Column(db.Integer)
+    traits = db.Column(db.String(500))  # เพิ่มคอลัมน์ traits เพื่อเก็บข้อมูล traits
 
 
 @app.route("/")
