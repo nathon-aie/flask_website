@@ -28,15 +28,15 @@ def class_page(class_name):
     return render_template("index.html", servants=servants)
 
 
-@app.route("/servant/<string:name>")
-def servant_detail(name):
+@app.route("/servant/<int:servant_id>")
+def servant_detail(servant_id):
     # ดึงข้อมูลจากฐานข้อมูลเฉพาะตัวที่ ID ตรงกับที่คลิกเข้ามา
-    servant = Servant.query.filter_by(name=name).first()
+    servant = Servant.query.filter_by(servant_id=servant_id).first()
 
     if servant:
         return f"<h1>{servant.name} (Class: {servant.class_name})</h1>"
     else:
-        return "<h1>Not Found</h1>"
+        return "<h1>Not 1Found</h1>"
 
 
 if __name__ == "__main__":
