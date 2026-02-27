@@ -13,10 +13,17 @@
         <a href="/class/all" style="text-decoration: none; font-size: 18px;">← Back to All Servants</a>
 
         <div style="margin-top: 20px; text-align: center;">
-            <img src="{{ servant.face_url_asc1 }}" alt="{{ servant.name }}" style="width: 256px; border-radius: 10px;">
+            <img src="{{ servant.face_url_asc1 }}" alt="{{ servant.name }} Ascension 1"
+                style="width: 256px; border-radius: 10px;">
+            <img src="{{ servant.face_url_asc2 }}" alt="{{ servant.name }} Ascension 2"
+                style="width: 256px; border-radius: 10px; margin-left: 20px;">
+            <img src="{{ servant.face_url_asc3 }}" alt="{{ servant.name }} Ascension 3"
+                style="width: 256px; border-radius: 10px; margin-left: 20px;">
+            <img src="{{ servant.face_url_asc4 }}" alt="{{ servant.name }} Ascension 4"
+                style="width: 256px; border-radius: 10px; margin-left: 20px;">
             <h1>{{ servant.name }}</h1>
             <p style="font-size: 20px; color: gray;">
-                <strong>ID:</strong> {{ servant.servant_id }} | <strong>Class:</strong> {{
+                <b>ID:</b> {{ servant.servant_id }} | <b>Class:</b> {{
                 servant.class_name.capitalize() }}
             </p>
         </div>

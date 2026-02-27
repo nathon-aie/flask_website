@@ -27,6 +27,8 @@ def fetch_and_save_data():
                     class_name=data["className"],
                     face_url_asc1=data["extraAssets"]["faces"]["ascension"]["1"],
                     face_url_asc2=data["extraAssets"]["faces"]["ascension"]["2"],
+                    face_url_asc3=data["extraAssets"]["faces"]["ascension"]["3"],
+                    face_url_asc4=data["extraAssets"]["faces"]["ascension"]["4"],
                     rarity=data["rarity"],
                     atk_max=data["atkMax"],
                     hp_max=data["hpMax"],

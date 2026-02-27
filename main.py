@@ -15,6 +15,8 @@ class Servant(db.Model):
     class_name = db.Column(db.String(50), nullable=False)
     face_url_asc1 = db.Column(db.String(255))
     face_url_asc2 = db.Column(db.String(255))
+    face_url_asc3 = db.Column(db.String(255))
+    face_url_asc4 = db.Column(db.String(255))
     rarity = db.Column(db.String(20))
     atk_max = db.Column(db.Integer)
     hp_max = db.Column(db.Integer)
