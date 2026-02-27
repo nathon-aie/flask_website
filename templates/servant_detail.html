@@ -4,12 +4,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ servant.name }} - FGO Servants</title>
+    <title>{{ servant.name }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 
 <body>
-    <h1>{{ servant.name }}</h1>
-    <img src="{{ servant.face_url }}" alt="{{ servant.name }}">
+    <div style="margin: 20px;">
+        <a href="/" style="text-decoration: none; font-size: 18px;">← Back to All Servants</a>
+
+        <div style="margin-top: 20px; text-align: center;">
+            <img src="{{ servant.face_url }}" alt="{{ servant.name }}" style="width: 256px; border-radius: 10px;">
+            <h1>{{ servant.name }}</h1>
+            <p style="font-size: 20px; color: gray;">
+                <strong>ID:</strong> {{ servant.servant_id }} | <strong>Class:</strong> {{
+                servant.class_name.capitalize() }}
+            </p>
+        </div>
+    </div>
 </body>
 
 </html>
