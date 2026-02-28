@@ -89,6 +89,42 @@
         </div>
         {% endif %}
 
+        {% if append_skills %}
+        <div class="container" style="margin-top: 20px;">
+            <div class="content-wrapper">
+                <h2 style="font-family: Agency FB, sans-serif;">Append Skills</h2>
+                <hr style="width: 100%;">
+
+                {% for skill in append_skills %}
+                <div class="stat-box" style="margin-bottom: 15px; display: flex; gap: 20px; align-items: flex-start;">
+
+                    <div style="text-align: center; min-width: 80px;">
+                        <img src="{{ skill.icon }}" alt="{{ skill.name }}"
+                            style="width: 60px; height: 60px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.3);">
+                        <p style="font-size: 14px; margin: 5px 0 0 0; font-weight: bold;">Append {{ loop.index }}</p>
+                    </div>
+
+                    <div style="flex-grow: 1;">
+                        <h3 style="margin: 0 0 10px 0; color: #333; font-size: 20px;">{{ skill.name }}</h3>
+
+                        <p style="margin: 0 0 10px 0; font-size: 16px; line-height: 1.5; white-space: pre-wrap;">{{
+                            skill.detail }}</p>
+
+                        {% if skill.cooldown %}
+                        <p
+                            style="margin: 0; font-size: 14px; color: #555; background-color: #eee; padding: 5px 10px; border-radius: 5px; display: inline-block;">
+                            <b>Cooldown:</b> {{ skill.cooldown[0] }} → {{ skill.cooldown[-1] }} Turns
+                        </p>
+                        {% endif %}
+                    </div>
+
+                </div>
+                {% endfor %}
+
+            </div>
+        </div>
+        {% endif %}
+
         {% if ascension_materials %}
         <div class="container" style="margin-top: 20px;">
             <div class="content-wrapper">

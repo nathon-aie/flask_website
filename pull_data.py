@@ -1,5 +1,6 @@
 import requests
 import json
+import re
 from main import app, db, Servant  # ดึงค่ามาจาก app.py
 
 
@@ -109,12 +110,18 @@ def fetch_and_save_data():
                 for append in raw_append_skills:
                     # ข้อมูลสกิลจะซ่อนอยู่ในคีย์ 'skill' อีกที
                     skill_info = append.get("skill", {})
+                    # 1. ดึงข้อความอธิบายแบบดิบๆ มาก่อน
+                    raw_detail = skill_info.get("detail", "")
+
+                    # 2. ใช้ re.sub เพื่อแทนที่คำที่อยู่ใน {{...}} ด้วยคำว่า [Lv. 1-10]
+                    # (ถ้าอยากให้มันหายไปเลย ให้เปลี่ยน '[Lv. 1-10]' เป็น '')
+                    clean_detail = re.sub(r"\{\{.*?\}\}", "[Lv. 1-10]", raw_detail)
                     processed_append_skills.append(
                         {
                             "num": append.get("num"),  # ลำดับ Append (1, 2, 3...)
                             "name": skill_info.get("name"),  # ชื่อ Append Skill
                             "icon": skill_info.get("icon"),  # รูปไอคอน
-                            "detail": skill_info.get("detail"),  # คำอธิบาย
+                            "detail": clean_detail,  # คำอธิบาย
                         }
                     )
 

@@ -122,8 +122,8 @@ def servant_detail(servant_id, name):
         skills = json.loads(servant.active_skill)
 
     append_skills = []
-    if servant and servant.append_skills:
-        append_skills = json.loads(servant.append_skills)
+    if servant and servant.append_skill:
+        append_skills = json.loads(servant.append_skill)
 
     return render_template(
         "servant_detail.html",
