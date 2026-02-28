@@ -1,5 +1,6 @@
 from flask import Flask, render_template
 from flask_sqlalchemy import SQLAlchemy
+import json
 
 app = Flask(__name__)
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///servants.db"
@@ -27,6 +28,7 @@ class Servant(db.Model):
     attribute = db.Column(db.String(20))
     traits = db.Column(db.String(500))  # เพิ่มคอลัมน์ traits เพื่อเก็บข้อมูล traits
     costume = db.Column(db.Text)  # เพิ่มคอลัมน์ costume เพื่อเก็บข้อมูล costume
+    ascension_materials = db.Column(db.Text)
 
 
 @app.route("/")
@@ -49,7 +51,15 @@ def servant_detail(servant_id, name):
     costume_list = []
     if servant and servant.costume:
         costume_list = servant.costume.split(",")
-    return render_template("servant_detail.html", servant=servant, costume=costume_list)
+    asc_mats = {}
+    if servant and servant.ascension_materials:
+        asc_mats = json.loads(servant.ascension_materials)
+    return render_template(
+        "servant_detail.html",
+        servant=servant,
+        costume=costume_list,
+        ascension_materials=asc_mats,
+    )
 
 
 if __name__ == "__main__":

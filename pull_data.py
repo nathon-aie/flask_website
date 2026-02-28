@@ -1,4 +1,5 @@
 import requests
+import json
 from main import app, db, Servant  # ดึงค่ามาจาก app.py
 
 
@@ -27,11 +28,30 @@ def fetch_and_save_data():
                 raw_traits = data.get("traits", [])
                 trait_names = [t["name"] for t in raw_traits]
                 traits_string = ", ".join(trait_names)
+
                 costume_dict = (
                     data.get("extraAssets", {}).get("charaGraph", {}).get("costume", {})
                 )
                 costume_urls = list(costume_dict.values())
                 costume_string = ",".join(costume_urls)
+
+                raw_mats = data.get("ascensionMaterials", {})
+                processed_mats = {}
+                for asc_level, mat_data in raw_mats.items():
+                    display_level = str(int(asc_level) + 1)  # เปลี่ยน "0" เป็น "1" ให้ดูง่าย
+                    level_items = []
+
+                    for item_req in mat_data.get("items", []):
+                        level_items.append(
+                            {
+                                "name": item_req["item"]["name"],
+                                "icon": item_req["item"]["icon"],
+                                "amount": item_req["amount"],
+                            }
+                        )
+                    processed_mats[display_level] = level_items
+                mats_json_string = json.dumps(processed_mats)
+
                 new_servant = Servant(
                     servant_id=data["collectionNo"],
                     name=data["name"],
@@ -50,6 +70,7 @@ def fetch_and_save_data():
                     attribute=data["attribute"],
                     traits=traits_string,
                     costume=costume_string,
+                    ascension_materials=mats_json_string,
                 )
                 db.session.add(new_servant)
 
