@@ -125,6 +125,63 @@
         </div>
         {% endif %}
 
+        {% if noble_phantasms %}
+        <div class="container" style="margin-top: 20px;">
+            <div class="content-wrapper">
+                <h2 style="font-family: Agency FB, sans-serif;">Noble Phantasms</h2>
+                <hr style="width: 100%;">
+
+                {% for np in noble_phantasms %}
+                <div class="stat-box"
+                    style="margin-bottom: 15px; display: flex; gap: 20px; align-items: flex-start; background-color: #fffaf0; border: 1px solid #f5deb3;">
+
+                    <div style="text-align: center; min-width: 80px;">
+
+                        {% if np.card|string == '1' or np.card == 'arts' %}
+                        <img src="{{ np.icon }}" alt="Arts"
+                            style="width: 60px; height: 60px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.3); background-color: #0275d8;">
+                        <p style="font-size: 15px; margin: 5px 0 0 0; font-weight: bold; color: #0275d8;">Arts</p>
+
+                        {% elif np.card|string == '2' or np.card == 'buster' %}
+                        <img src="{{ np.icon }}" alt="Buster"
+                            style="width: 60px; height: 60px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.3); background-color: #d9534f;">
+                        <p style="font-size: 15px; margin: 5px 0 0 0; font-weight: bold; color: #d9534f;">Buster</p>
+
+                        {% elif np.card|string == '3' or np.card == 'quick' %}
+                        <img src="{{ np.icon }}" alt="Quick"
+                            style="width: 60px; height: 60px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.3); background-color: #5cb85c;">
+                        <p style="font-size: 15px; margin: 5px 0 0 0; font-weight: bold; color: #5cb85c;">Quick</p>
+
+                        {% else %}
+                        <img src="{{ np.icon }}" alt="Unknown"
+                            style="width: 60px; height: 60px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.3); background-color: #555;">
+                        <p style="font-size: 15px; margin: 5px 0 0 0; font-weight: bold; color: #555;">Unknown</p>
+                        {% endif %}
+
+                    </div>
+
+                    <div style="flex-grow: 1;">
+                        <h3 style="margin: 0 0 5px 0; color: #444; font-size: 22px;">{{ np.name }}</h3>
+
+                        <p style="margin: 0 0 10px 0; font-size: 14px; color: #777;">
+                            <span style="background-color: #eee; padding: 2px 8px; border-radius: 4px;"><b>Rank:</b> {{
+                                np.rank }}</span>
+                            <span
+                                style="background-color: #eee; padding: 2px 8px; border-radius: 4px; margin-left: 5px;"><b>Type:</b>
+                                {{ np.type }}</span>
+                        </p>
+
+                        <p style="margin: 0; font-size: 16px; line-height: 1.5; white-space: pre-wrap; color: #333;">{{
+                            np.detail }}</p>
+                    </div>
+
+                </div>
+                {% endfor %}
+
+            </div>
+        </div>
+        {% endif %}
+
         {% if ascension_materials %}
         <div class="container" style="margin-top: 20px;">
             <div class="content-wrapper">
