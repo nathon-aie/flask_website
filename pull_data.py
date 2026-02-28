@@ -1,182 +1,129 @@
 import requests
 import json
 import re
-from main import app, db, Servant  # ดึงค่ามาจาก app.py
+from app import app
+from models import db, Servant
 
 
 def fetch_and_save_data():
-    # คำสั่ง app.app_context() จำเป็นมาก เพื่อให้ Flask รู้ว่าเรากำลังเชื่อมต่อ DB ของโปรเจกต์ไหน
     with app.app_context():
-        # สร้างไฟล์/ตารางฐานข้อมูลถ้ายังไม่มี
-        db.drop_all()  # ลบข้อมูลเก่าออกก่อน เพื่อให้ได้ข้อมูลใหม่ทุกครั้งที่รัน
+        db.drop_all()
         db.create_all()
 
-        if Servant.query.count() == 0:
-            print("[-] Pulling Data from Atlas Academy API...")
+        print("[-] Pulling Data from Atlas Academy API...")
+        url = "https://api.atlasacademy.io/export/NA/nice_servant.json"
+        all_servants = requests.get(url).json()
 
-            url = "https://api.atlasacademy.io/export/NA/nice_servant.json"
-            response = requests.get(url)
-            all_servants = response.json()
+        # กรองเฉพาะ Servant ปกติและเรียงตาม ID
+        valid_servants = [s for s in all_servants if s["type"] in ["normal", "heroine"]]
+        valid_servants = sorted(valid_servants, key=lambda x: x["collectionNo"])[1:]
 
-            valid_servants = [
-                s for s in all_servants if s["type"] in ["normal", "heroine"]
-            ]
+        for data in valid_servants:
+            # --- ส่วนประมวลผล Traits และ Costumes ---
+            traits_string = ", ".join([t["name"] for t in data.get("traits", [])])
+            costume_urls = list(
+                data.get("extraAssets", {})
+                .get("charaGraph", {})
+                .get("costume", {})
+                .values()
+            )
 
-            valid_servants = sorted(valid_servants, key=lambda x: x["collectionNo"])
-            valid_servants = valid_servants[1:]  # servant ตัวแรกเป็น dummy data ที่ไม่ต้องการ
-
-            for data in valid_servants:
-                raw_traits = data.get("traits", [])
-                trait_names = [t["name"] for t in raw_traits]
-                traits_string = ", ".join(trait_names)
-                costume_dict = (
-                    data.get("extraAssets", {}).get("charaGraph", {}).get("costume", {})
-                )
-                costume_urls = list(costume_dict.values())
-                costume_string = ",".join(costume_urls)
-
-                raw_mats = data.get("ascensionMaterials", {})
-                processed_mats = {}
-                for asc_level, mat_data in raw_mats.items():
-                    display_level = str(int(asc_level) + 1)  # เปลี่ยน "0" เป็น "1" ให้ดูง่าย
-                    level_items = []
-
-                    for item_req in mat_data.get("items", []):
-                        level_items.append(
-                            {
-                                "name": item_req["item"]["name"],
-                                "icon": item_req["item"]["icon"],
-                                "amount": item_req["amount"],
-                            }
-                        )
-                    processed_mats[display_level] = level_items
-                mats_json_string = json.dumps(processed_mats)
-
-                raw_skill_mats = data.get("skillMaterials", {})
-                processed_skill_mats = {}
-                for level, mat_data in raw_skill_mats.items():
-                    # ปรับข้อความให้ดูง่าย เช่น "Lv. 1 → 2"
-                    display_level = f"Lv. {level} → {int(level) + 1}"
-                    level_items = []
-                    for item_req in mat_data.get("items", []):
-                        level_items.append(
-                            {
-                                "name": item_req["item"]["name"],
-                                "icon": item_req["item"]["icon"],
-                                "amount": item_req["amount"],
-                            }
-                        )
-                    processed_skill_mats[display_level] = level_items
-                skill_mats_json = json.dumps(processed_skill_mats)
-
-                raw_apd_skill_mats = data.get("appendSkillMaterials", {})
-                processed_apd_skill_mats = {}
-                for level, mat_data in raw_apd_skill_mats.items():
-                    # ปรับข้อความให้ดูง่าย เช่น "Lv. 1 → 2"
-                    display_level = f"Lv. {level} → {int(level) + 1}"
-                    level_items = []
-                    for item_req in mat_data.get("items", []):
-                        level_items.append(
-                            {
-                                "name": item_req["item"]["name"],
-                                "icon": item_req["item"]["icon"],
-                                "amount": item_req["amount"],
-                            }
-                        )
-                    processed_apd_skill_mats[display_level] = level_items
-                apd_skill_mats_json = json.dumps(processed_apd_skill_mats)
-
-                raw_skills = data.get("skills", [])
-                processed_skills = []
-                for skill in raw_skills:
-                    processed_skills.append(
-                        {
-                            "num": skill.get("num"),  # ช่องของสกิล (1, 2 หรือ 3)
-                            "name": skill.get("name"),  # ชื่อสกิล
-                            "icon": skill.get("icon"),  # รูปไอคอนสกิล
-                            "detail": skill.get("detail"),  # คำอธิบายสกิล
-                            "cooldown": skill.get(
-                                "coolDown"
-                            ),  # คูลดาวน์ (เป็น List เช่น [7,7,7,6...])
-                        }
+            # --- ฟังก์ชันภายในช่วยจัดการ Materials (Ascension/Skill/Append) ---
+            def process_mats(raw_data, is_skill=False):
+                processed = {}
+                for level, mat_data in raw_data.items():
+                    key = (
+                        f"Lv. {level} → {int(level) + 1}"
+                        if is_skill
+                        else str(int(level) + 1)
                     )
-                # เรียงสกิลตามช่อง (Slot 1 -> 2 -> 3)
-                processed_skills = sorted(processed_skills, key=lambda x: x["num"])
-                skills_json = json.dumps(processed_skills)
-
-                raw_append_skills = data.get("appendPassive", [])
-                processed_append_skills = []
-                for append in raw_append_skills:
-                    # ข้อมูลสกิลจะซ่อนอยู่ในคีย์ 'skill' อีกที
-                    skill_info = append.get("skill", {})
-                    # 1. ดึงข้อความอธิบายแบบดิบๆ มาก่อน
-                    raw_detail = skill_info.get("detail", "")
-                    # 2. ใช้ re.sub เพื่อแทนที่คำที่อยู่ใน {{...}} ด้วยคำว่า [Lv. 1-10]
-                    # (ถ้าอยากให้มันหายไปเลย ให้เปลี่ยน '[Lv. 1-10]' เป็น '')
-                    clean_detail = re.sub(r"\{\{.*?\}\}", "[Lv. 1-10]", raw_detail)
-                    processed_append_skills.append(
+                    processed[key] = [
                         {
-                            "num": append.get("num"),  # ลำดับ Append (1, 2, 3...)
-                            "name": skill_info.get("name"),  # ชื่อ Append Skill
-                            "icon": skill_info.get("icon"),  # รูปไอคอน
-                            "detail": clean_detail,  # คำอธิบาย
+                            "name": i["item"]["name"],
+                            "icon": i["item"]["icon"],
+                            "amount": i["amount"],
                         }
-                    )
-                # เรียงสกิลตามช่อง (1 -> 2 -> 3)
-                processed_append_skills = sorted(
-                    processed_append_skills, key=lambda x: x["num"]
+                        for i in mat_data.get("items", [])
+                    ]
+                return json.dumps(processed)
+
+            # --- ประมวลผล Noble Phantasms และ Skills ---
+            nps = []
+            for np in data.get("noblePhantasms", []):
+                clean_detail = re.sub(
+                    r"\{\{.*?\}\}", "[Lv. 1-5 / OC]", np.get("detail", "")
                 )
-                append_skills_json = json.dumps(processed_append_skills)
-
-                raw_nps = data.get("noblePhantasms", [])
-                processed_nps = []
-                for np in raw_nps:
-                    raw_detail = np.get("detail", "")
-                    # คลีนข้อความ {{...}} ให้กลายเป็นคำว่า [Lv. 1-5 / OC]
-                    clean_detail = re.sub(r"\{\{.*?\}\}", "[Lv. 1-5 / OC]", raw_detail)
-                    processed_nps.append(
-                        {
-                            "name": np.get("name"),
-                            "card": np.get("card"),  # ประเภทการ์ด (buster, arts, quick)
-                            "icon": np.get("icon"),  # รูปไอคอนการ์ด
-                            "detail": clean_detail,  # คำอธิบายที่คลีนแล้ว
-                            "rank": np.get("rank"),  # ระดับของโฮกุ
-                            "type": np.get("type"),  # ประเภท (เช่น Anti-Army)
-                        }
-                    )
-                nps_json = json.dumps(processed_nps)
-
-                new_servant = Servant(
-                    servant_id=data["collectionNo"],
-                    name=data["name"],
-                    class_name=data["className"],
-                    graph_url_asc1=data["extraAssets"]["charaGraph"]["ascension"]["1"],
-                    graph_url_asc2=data["extraAssets"]["charaGraph"]["ascension"]["2"],
-                    graph_url_asc3=data["extraAssets"]["charaGraph"]["ascension"]["3"],
-                    graph_url_asc4=data["extraAssets"]["charaGraph"]["ascension"]["4"],
-                    rarity=data["rarity"],
-                    cost=data["cost"],
-                    atk_base=data["atkBase"],
-                    atk_max=data["atkMax"],
-                    hp_base=data["hpBase"],
-                    hp_max=data["hpMax"],
-                    gender=data["gender"],
-                    attribute=data["attribute"],
-                    traits=traits_string,
-                    costume=costume_string,
-                    active_skill=skills_json,
-                    append_skill=append_skills_json,
-                    noble_phantasms=nps_json,
-                    ascension_materials=mats_json_string,
-                    skill_materials=skill_mats_json,
-                    append_skill_materials=apd_skill_mats_json,
+                nps.append(
+                    {
+                        "name": np.get("name"),
+                        "card": np.get("card"),
+                        "icon": np.get("icon"),
+                        "detail": clean_detail,
+                        "rank": np.get("rank"),
+                        "type": np.get("type"),
+                    }
                 )
-                db.session.add(new_servant)
 
-            db.session.commit()
-            print("[+] Saved on SQLite, pulling", len(valid_servants), "servants...")
-        else:
-            print("[!] Already have data in the database, skipping pull.")
+            new_servant = Servant(
+                servant_id=data["collectionNo"],
+                name=data["name"],
+                class_name=data["className"],
+                graph_url_asc1=data["extraAssets"]["charaGraph"]["ascension"]["1"],
+                graph_url_asc2=data["extraAssets"]["charaGraph"]["ascension"]["2"],
+                graph_url_asc3=data["extraAssets"]["charaGraph"]["ascension"]["3"],
+                graph_url_asc4=data["extraAssets"]["charaGraph"]["ascension"]["4"],
+                rarity=data["rarity"],
+                cost=data["cost"],
+                atk_base=data["atkBase"],
+                atk_max=data["atkMax"],
+                hp_base=data["hpBase"],
+                hp_max=data["hpMax"],
+                gender=data["gender"],
+                attribute=data["attribute"],
+                traits=traits_string,
+                costume=",".join(costume_urls),
+                active_skill=json.dumps(
+                    sorted(
+                        [
+                            {
+                                "num": s["num"],
+                                "name": s["name"],
+                                "icon": s["icon"],
+                                "detail": s["detail"],
+                                "cooldown": s.get("coolDown"),
+                            }
+                            for s in data.get("skills", [])
+                        ],
+                        key=lambda x: x["num"],
+                    )
+                ),
+                append_skill=json.dumps(
+                    sorted(
+                        [
+                            {
+                                "num": a["num"],
+                                "name": a["skill"]["name"],
+                                "icon": a["skill"]["icon"],
+                                "detail": re.sub(
+                                    r"\{\{.*?\}\}", "[Lv. 1-10]", a["skill"]["detail"]
+                                ),
+                            }
+                            for a in data.get("appendPassive", [])
+                        ],
+                        key=lambda x: x["num"],
+                    )
+                ),
+                noble_phantasms=json.dumps(nps),
+                ascension_materials=process_mats(data.get("ascensionMaterials", {})),
+                skill_materials=process_mats(data.get("skillMaterials", {}), True),
+                append_skill_materials=process_mats(
+                    data.get("appendSkillMaterials", {}), True
+                ),
+            )
+            db.session.add(new_servant)
+
+        db.session.commit()
+        print(f"[+] Saved {len(valid_servants)} servants to SQLite.")
 
 
 if __name__ == "__main__":
