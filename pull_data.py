@@ -106,13 +106,11 @@ def fetch_and_save_data():
 
                 raw_append_skills = data.get("appendPassive", [])
                 processed_append_skills = []
-
                 for append in raw_append_skills:
                     # ข้อมูลสกิลจะซ่อนอยู่ในคีย์ 'skill' อีกที
                     skill_info = append.get("skill", {})
                     # 1. ดึงข้อความอธิบายแบบดิบๆ มาก่อน
                     raw_detail = skill_info.get("detail", "")
-
                     # 2. ใช้ re.sub เพื่อแทนที่คำที่อยู่ใน {{...}} ด้วยคำว่า [Lv. 1-10]
                     # (ถ้าอยากให้มันหายไปเลย ให้เปลี่ยน '[Lv. 1-10]' เป็น '')
                     clean_detail = re.sub(r"\{\{.*?\}\}", "[Lv. 1-10]", raw_detail)
@@ -124,12 +122,29 @@ def fetch_and_save_data():
                             "detail": clean_detail,  # คำอธิบาย
                         }
                     )
-
                 # เรียงสกิลตามช่อง (1 -> 2 -> 3)
                 processed_append_skills = sorted(
                     processed_append_skills, key=lambda x: x["num"]
                 )
                 append_skills_json = json.dumps(processed_append_skills)
+
+                raw_nps = data.get("noblePhantasms", [])
+                processed_nps = []
+                for np in raw_nps:
+                    raw_detail = np.get("detail", "")
+                    # คลีนข้อความ {{...}} ให้กลายเป็นคำว่า [Lv. 1-5 / OC]
+                    clean_detail = re.sub(r"\{\{.*?\}\}", "[Lv. 1-5 / OC]", raw_detail)
+                    processed_nps.append(
+                        {
+                            "name": np.get("name"),
+                            "card": np.get("card"),  # ประเภทการ์ด (buster, arts, quick)
+                            "icon": np.get("icon"),  # รูปไอคอนการ์ด
+                            "detail": clean_detail,  # คำอธิบายที่คลีนแล้ว
+                            "rank": np.get("rank"),  # ระดับของโฮกุ
+                            "type": np.get("type"),  # ประเภท (เช่น Anti-Army)
+                        }
+                    )
+                nps_json = json.dumps(processed_nps)
 
                 new_servant = Servant(
                     servant_id=data["collectionNo"],
@@ -151,6 +166,7 @@ def fetch_and_save_data():
                     costume=costume_string,
                     active_skill=skills_json,
                     append_skill=append_skills_json,
+                    noble_phantasms=nps_json,
                     ascension_materials=mats_json_string,
                     skill_materials=skill_mats_json,
                     append_skill_materials=apd_skill_mats_json,
