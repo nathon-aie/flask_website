@@ -22,20 +22,21 @@
             <img src="{{ servant.graph_url_asc4 }}" alt="{{ servant.name }} Ascension 4">
         </div>
 
-        <div style="font-size: 20px;">
-            <h1>{{ servant.name }}</h1>
-            <p>{{ servant.class_name.capitalize() }}</p>
-        </div>
+        <div class="container">
+            <div class="content-wrapper">
+                <div style="font-size: 20px;">
+                    <h1>{{ servant.name }}</h1>
+                    <p>{{ servant.class_name.capitalize() }}</p>
+                </div>
 
-        <hr>
-
-        <div>
-            <div class="stat-box" style="font-size: 20px;">
-                <p><b>ID:</b> {{ servant.servant_id }}</p>
-                <p><b>Rarity:</b> {{ servant.rarity }} ⭐</p>
-                <p><b>ATK:</b> {{ servant.atk_base }} → {{ servant.atk_max }} ⚔️</p>
-                <p><b>Max HP:</b> {{ servant.hp_base }} → {{ servant.hp_max }} ❤️</p>
-                <p><b>Traits:</b> {{ servant.traits }}</p>
+                <hr style="width: 100%;">
+                <div class="stat-box" style="font-size: 20px;">
+                    <p><b>ID:</b> {{ servant.servant_id }}</p>
+                    <p><b>Rarity:</b> {{ servant.rarity }} ⭐</p>
+                    <p><b>ATK:</b> {{ servant.atk_base }} → {{ servant.atk_max }} ⚔️</p>
+                    <p><b>Max HP:</b> {{ servant.hp_base }} → {{ servant.hp_max }} ❤️</p>
+                    <p><b>Traits:</b> {{ servant.traits }}</p>
+                </div>
             </div>
         </div>
     </div>
