@@ -2,56 +2,78 @@
 <html lang="en">
 
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FGO Servants</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 
-<body>
-    <h1 class="title">FGO Servants</h1>
-    <div class="class_category">
-        <a href="/class/all" class="button"><b>All Servants</b></a>
-        <a href="/class/saber" class="button"><b>Saber</b></a>
-        <a href="/class/archer" class="button"><b>Archer</b></a>
-        <a href="/class/lancer" class="button"><b>Lancer</b></a>
-        <a href="/class/rider" class="button"><b>Rider</b></a>
-        <a href="/class/caster" class="button"><b>Caster</b></a>
-        <a href="/class/assassin" class="button"><b>Assassin</b></a>
-        <a href="/class/berserker" class="button"><b>Berserker</b></a>
-    </div>
+<body style="background-color: lightgray; font-family: 'Agency FB', sans-serif;">
 
-    <div class="class_category">
-        <a href="/class/ruler" class="button"><b>Ruler</b></a>
-        <a href="/class/avenger" class="button"><b>Avenger</b></a>
-        <a href="/class/moonCancer" class="button"><b>Mooncancer</b></a>
-        <a href="/class/alterEgo" class="button"><b>Alter Ego</b></a>
-        <a href="/class/foreigner" class="button"><b>Foreigner</b></a>
-        <a href="/class/pretender" class="button"><b>Pretender</b></a>
-        <a href="/class/shielder" class="button"><b>Shielder</b></a>
-        <a href="/class/beast" class="button"><b>Beast</b></a>
-    </div>
+    <div class="container-fluid py-4" style="max-width: 1450px;">
 
-    <div>
-        <div class="grid">
+        <div class="sticky-top pt-3 pb-3 mb-4"
+            style="background-color: rgba(211, 211, 211, 0.85); backdrop-filter: blur(8px); z-index: 1020; margin-top: -1.5rem;">
+
+            <h1 class="text-center text-dark mb-4" style="font-size: 36px;">FGO Servants</h1>
+
+            <div class="d-flex flex-wrap justify-content-center gap-2 mb-3">
+                <a href="/class/all" class="btn bg-white text-dark fw-bold px-3 py-2 shadow-sm">All Servants</a>
+                <a href="/class/saber" class="btn bg-white text-dark fw-bold px-3 py-2 shadow-sm">Saber</a>
+                <a href="/class/archer" class="btn bg-white text-dark fw-bold px-3 py-2 shadow-sm">Archer</a>
+                <a href="/class/lancer" class="btn bg-white text-dark fw-bold px-3 py-2 shadow-sm">Lancer</a>
+                <a href="/class/rider" class="btn bg-white text-dark fw-bold px-3 py-2 shadow-sm">Rider</a>
+                <a href="/class/caster" class="btn bg-white text-dark fw-bold px-3 py-2 shadow-sm">Caster</a>
+                <a href="/class/assassin" class="btn bg-white text-dark fw-bold px-3 py-2 shadow-sm">Assassin</a>
+                <a href="/class/berserker" class="btn bg-white text-dark fw-bold px-3 py-2 shadow-sm">Berserker</a>
+            </div>
+
+            <div class="d-flex flex-wrap justify-content-center gap-2">
+                <a href="/class/ruler" class="btn bg-white text-dark fw-bold px-3 py-2 shadow-sm">Ruler</a>
+                <a href="/class/avenger" class="btn bg-white text-dark fw-bold px-3 py-2 shadow-sm">Avenger</a>
+                <a href="/class/moonCancer" class="btn bg-white text-dark fw-bold px-3 py-2 shadow-sm">Mooncancer</a>
+                <a href="/class/alterEgo" class="btn bg-white text-dark fw-bold px-3 py-2 shadow-sm">Alter Ego</a>
+                <a href="/class/foreigner" class="btn bg-white text-dark fw-bold px-3 py-2 shadow-sm">Foreigner</a>
+                <a href="/class/pretender" class="btn bg-white text-dark fw-bold px-3 py-2 shadow-sm">Pretender</a>
+                <a href="/class/shielder" class="btn bg-white text-dark fw-bold px-3 py-2 shadow-sm">Shielder</a>
+                <a href="/class/beast" class="btn bg-white text-dark fw-bold px-3 py-2 shadow-sm">Beast</a>
+            </div>
+
+        </div>
+
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5 g-4 justify-content-center">
+
             {% for servant in servants %}
-            <a href=" /servant/{{ servant.servant_id }}/{{ servant.name }}"
-                style="text-decoration: none; color: black;">
-                <div class="card">
-                    <img src="{{ servant.graph_url_asc1 }}" alt="{{ servant.name }}">
-                    <p style="font-size: 18px; 
-                    font-weight: bold; 
-                    margin: 10px 0 5px;
-                    ">ID:{{ servant.servant_id }} | {{ servant.name }}
-                    </p>
-                    <p style="font-size: 16px; 
-                    color: gray; margin: 0;
-                    font-weight: bold;
-                    ">{{ servant.class_name.capitalize() }}
-                    </p>
-                </div>
-            </a>
+            <div class="col d-flex justify-content-center">
+                <a href="/servant/{{ servant.servant_id }}/{{ servant.name }}"
+                    class="text-decoration-none text-dark h-100">
+
+                    <div class="card border-0 d-flex flex-column align-items-center justify-content-between p-3 h-100"
+                        style="width: 250px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);">
+
+                        <div class="d-flex flex-column justify-content-center flex-grow-1">
+                            <img src="{{ servant.graph_url_asc1 }}" alt="{{ servant.name }}"
+                                class="rounded border border-2 border-dark"
+                                style="width: 125px; height: auto; object-fit: contain; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);">
+                        </div>
+
+                        <div class="text-center mt-3 w-100">
+                            <p class="mb-1 fw-bold text-dark" style="font-size: 16px; line-height: 1.2;">ID:{{
+                                servant.servant_id }} | {{ servant.name }}</p>
+                            <p class="mb-0 fw-bold text-secondary" style="font-size: 15px;">{{
+                                servant.class_name.capitalize() }}</p>
+                        </div>
+
+                    </div>
+
+                </a>
+            </div>
             {% endfor %}
+
         </div>
     </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>
