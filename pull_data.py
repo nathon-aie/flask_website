@@ -27,6 +27,11 @@ def fetch_and_save_data():
                 raw_traits = data.get("traits", [])
                 trait_names = [t["name"] for t in raw_traits]
                 traits_string = ", ".join(trait_names)
+                costume_dict = (
+                    data.get("extraAssets", {}).get("charaGraph", {}).get("costume", {})
+                )
+                costume_urls = list(costume_dict.values())
+                costume_string = ",".join(costume_urls)
                 new_servant = Servant(
                     servant_id=data["collectionNo"],
                     name=data["name"],
@@ -42,6 +47,7 @@ def fetch_and_save_data():
                     hp_base=data["hpBase"],
                     hp_max=data["hpMax"],
                     traits=traits_string,
+                    costume=costume_string,
                 )
                 db.session.add(new_servant)
 

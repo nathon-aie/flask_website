@@ -24,6 +24,7 @@ class Servant(db.Model):
     hp_base = db.Column(db.Integer)
     hp_max = db.Column(db.Integer)
     traits = db.Column(db.String(500))  # เพิ่มคอลัมน์ traits เพื่อเก็บข้อมูล traits
+    costume = db.Column(db.Text)  # เพิ่มคอลัมน์ costume เพื่อเก็บข้อมูล costume
 
 
 @app.route("/")
@@ -43,7 +44,10 @@ def class_page(class_name):
 def servant_detail(servant_id, name):
     # ดึงข้อมูลจากฐานข้อมูลเฉพาะตัวที่ ID ตรงกับที่คลิกเข้ามา
     servant = Servant.query.filter_by(servant_id=servant_id).first()
-    return render_template("servant_detail.html", servant=servant)
+    costume_list = []
+    if servant and servant.costume:
+        costume_list = servant.costume.split(",")
+    return render_template("servant_detail.html", servant=servant, costume=costume_list)
 
 
 if __name__ == "__main__":
