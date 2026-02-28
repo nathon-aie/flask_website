@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ servant.name }}</title>
+    <!-- นำเข้า Bootstrap 5.3.2 สำหรับ CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 
@@ -12,12 +13,14 @@
 
     <div class="container-fluid py-4">
 
+        <!-- ปุ่มกลับไปหน้าหลัก (ติดด้านบนเมื่อเลื่อนหน้า) -->
         <div class="sticky-top pt-3 mb-4 text-center text-md-start px-md-4" style="z-index: 1020;">
             <a href="/class/all" class="btn bg-white text-dark fw-bold shadow px-4 py-2" style="border-radius: 8px;">
                 ← Back to All Servants
             </a>
         </div>
 
+        <!-- แสดงรูปภาพ Ascension ทั้ง 4 ระดับ -->
         <div class="d-flex flex-wrap justify-content-center gap-3 mb-5">
             <img src="{{ servant.graph_url_asc1 }}" alt="{{ servant.name }} Ascension 1"
                 class="rounded-4 border border-dark border-5 shadow" style="width: 250px; height: auto;">
@@ -29,6 +32,7 @@
                 class="rounded-4 border border-dark border-5 shadow" style="width: 250px; height: auto;">
         </div>
 
+        <!-- ส่วนแสดงชุดคอสตูม (ถ้ามี) -->
         {% if costume %}
         <div class="text-center mb-5">
             <h2 class="fw-bold mb-3" style="font-family: 'Agency FB', sans-serif; font-size: 32px;">Costumes</h2>
@@ -41,9 +45,11 @@
         </div>
         {% endif %}
 
+        <!-- Container สำหรับเนื้อหาหลัก -->
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-12 col-lg-8">
+                    <!-- ชื่อและ Class ของ Servant -->
                     <div class="mb-3">
                         <h1 class="fw-bold mb-0" style="font-size: 40px;">{{ servant.name }}</h1>
                         <p class="text-secondary fw-bold fs-4">{{ servant.class_name.capitalize() }}</p>
@@ -51,6 +57,7 @@
 
                     <hr class="border-dark border-2 opacity-50 mb-4">
 
+                    <!-- กล่องข้อมูลพื้นฐานของ Servant -->
                     <div class="bg-white p-4 rounded-4 shadow-sm text-dark mb-5" style="font-size: 20px;">
                         <p class="mb-2"><b>ID:</b> {{ servant.servant_id }}</p>
                         <p class="mb-2"><b>Rarity:</b> {{ servant.rarity }} ⭐</p>
@@ -62,9 +69,11 @@
                         <p class="mb-0"><b>Traits:</b> {{ servant.traits }}</p>
                     </div>
 
+                    <!-- ส่วนแสดงทักษะหลัก (Active Skills) -->
                     {% if active_skills %}
                     <h2 class="fw-bold mb-3" style="font-family: 'Agency FB', sans-serif;">Active Skills</h2>
                     <hr class="border-dark border-2 opacity-50 mb-4">
+                    <!-- วนลูปแสดงทักษะแต่ละตัว -->
                     {% for skill in active_skills %}
                     <div class="bg-white p-3 rounded-4 shadow-sm mb-3 d-flex gap-3 align-items-start text-dark">
                         <div class="text-center" style="min-width: 80px;">
@@ -87,9 +96,11 @@
                     <div class="mb-5"></div>
                     {% endif %}
 
+                    <!-- ส่วนแสดงทักษะเสริม (Append Skills) -->
                     {% if append_skills %}
                     <h2 class="fw-bold mb-3" style="font-family: 'Agency FB', sans-serif;">Append Skills</h2>
                     <hr class="border-dark border-2 opacity-50 mb-4">
+                    <!-- วนลูปแสดงทักษะเสริมแต่ละตัว -->
                     {% for skill in append_skills %}
                     <div class="bg-white p-3 rounded-4 shadow-sm mb-3 d-flex gap-3 align-items-start text-dark">
                         <div class="text-center" style="min-width: 80px;">
@@ -112,13 +123,16 @@
                     <div class="mb-5"></div>
                     {% endif %}
 
+                    <!-- ส่วนแสดง Noble Phantasm (โนเบิลแฟนทัสซึม) -->
                     {% if noble_phantasms %}
                     <h2 class="fw-bold mb-3" style="font-family: 'Agency FB', sans-serif;">Noble Phantasms</h2>
                     <hr class="border-dark border-2 opacity-50 mb-4">
+                    <!-- วนลูปแสดง Noble Phantasm แต่ละตัว -->
                     {% for np in noble_phantasms %}
                     <div class="p-3 rounded-4 shadow-sm mb-3 d-flex gap-3 align-items-start text-dark"
                         style="background-color: #fffaf0; border: 1px solid #f5deb3;">
                         <div class="text-center" style="min-width: 80px;">
+                            <!-- ตรวจสอบประเภทการ์ดและแสดงสีตามประเภท -->
                             {% if np.card|string == '1' or np.card == 'arts' %}
                             <img src="{{ np.icon }}" alt="Arts" class="rounded shadow-sm"
                                 style="width: 60px; height: 60px; background-color: #0275d8;">
@@ -153,9 +167,11 @@
                     <div class="mb-5"></div>
                     {% endif %}
 
+                    <!-- ส่วนแสดงวัสดุสำหรับ Ascension (เลื่อนขั้น) -->
                     {% if ascension_materials %}
                     <h2 class="fw-bold mb-3" style="font-family: 'Agency FB', sans-serif;">Ascension Materials</h2>
                     <hr class="border-dark border-2 opacity-50 mb-4">
+                    <!-- วนลูปแสดงวัสดุแต่ละระดับ -->
                     {% for level, items in ascension_materials.items() %}
                     <div class="bg-white p-3 rounded-4 shadow-sm mb-3 text-dark">
                         <h3 class="fw-bold mb-3 fs-4">Ascension {{ level }}</h3>
@@ -172,6 +188,7 @@
                     </div>
                     {% endfor %}
 
+                    <!-- กล่องสรุปวัสดุทั้งหมดที่ต้องใช้สำหรับ Ascension -->
                     {% if total_ascension_materials %}
                     <div class="p-3 rounded-4 shadow-sm mb-5"
                         style="background-color: #f0f8ff; border: 2px solid #b0d4ff;">
@@ -191,10 +208,12 @@
                     {% endif %}
                     {% endif %}
 
+                    <!-- ส่วนแสดงวัสดุสำหรับเลเวลทักษะหลัก -->
                     {% if skill_materials %}
                     <h2 class="fw-bold mb-3" style="font-family: 'Agency FB', sans-serif;">Skill Enhancement Materials
                     </h2>
                     <hr class="border-dark border-2 opacity-50 mb-4">
+                    <!-- วนลูปแสดงวัสดุแต่ละระดับทักษะ -->
                     {% for level, items in skill_materials.items() %}
                     <div class="bg-white p-3 rounded-4 shadow-sm mb-3 text-dark">
                         <h3 class="fw-bold mb-3 fs-4">{{ level }}</h3>
@@ -211,6 +230,7 @@
                     </div>
                     {% endfor %}
 
+                    <!-- กล่องสรุปวัสดุทั้งหมดที่ต้องใช้สำหรับเลเวลทักษะ -->
                     {% if total_skill_materials %}
                     <div class="p-3 rounded-4 shadow-sm mb-5"
                         style="background-color: #f0f8ff; border: 2px solid #b0d4ff;">
@@ -230,10 +250,12 @@
                     {% endif %}
                     {% endif %}
 
+                    <!-- ส่วนแสดงวัสดุสำหรับเลเวลทักษะเสริม -->
                     {% if append_skill_materials %}
                     <h2 class="fw-bold mb-3" style="font-family: 'Agency FB', sans-serif;">Append Skill Enhancement
                         Materials</h2>
                     <hr class="border-dark border-2 opacity-50 mb-4">
+                    <!-- วนลูปแสดงวัสดุแต่ละระดับทักษะเสริม -->
                     {% for level, items in append_skill_materials.items() %}
                     <div class="bg-white p-3 rounded-4 shadow-sm mb-3 text-dark">
                         <h3 class="fw-bold mb-3 fs-4">{{ level }}</h3>
@@ -250,6 +272,7 @@
                     </div>
                     {% endfor %}
 
+                    <!-- กล่องสรุปวัสดุทั้งหมดที่ต้องใช้สำหรับเลเวลทักษะเสริม -->
                     {% if total_append_skill_materials %}
                     <div class="p-3 rounded-4 shadow-sm mb-5"
                         style="background-color: #f0f8ff; border: 2px solid #b0d4ff;">
@@ -274,6 +297,7 @@
         </div>
     </div>
 
+    <!-- นำเข้า Bootstrap JavaScript สำหรับฟังก์ชันต่างๆ -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
