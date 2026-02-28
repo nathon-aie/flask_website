@@ -3,10 +3,32 @@ body {
     font-family: Agency FB, sans-serif;
 }
 
+.title {
+    font-size: 36px;
+    color: #333;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.button {
+    padding: 10px;
+    background: #ffffff;
+    color: rgb(0, 0, 0);
+    text-decoration: none;
+    border-radius: 5px;
+}
+
+.class_category {
+    margin-bottom: 20px;
+    text-align: center;
+}
+
 .grid {
     display: flex;
     flex-wrap: wrap;
     gap: 20px;
+    justify-content: center;
+    align-items: center;
 }
 
 .card {

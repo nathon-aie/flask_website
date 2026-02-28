@@ -7,64 +7,32 @@
 </head>
 
 <body>
-    <h1>FGO Servants</h1>
-    <div style="margin-bottom: 20px;">
-        <a href="/class/all"
-            style="padding: 10px; background: #ffffff; color: rgb(0, 0, 0); text-decoration: none; border-radius: 5px;">
-            <b>All Servants</b></a>
-        <a href="/class/saber"
-            style="padding: 10px; background: #ffffff; color: rgb(0, 0, 0); text-decoration: none; border-radius: 5px;">
-            <b>Saber</b></a>
-        <a href="/class/archer"
-            style="padding: 10px; background: #ffffff; color: rgb(0, 0, 0); text-decoration: none; border-radius: 5px;">
-            <b>Archer</b></a>
-        <a href="/class/lancer"
-            style="padding: 10px; background: #ffffff; color: rgb(0, 0, 0); text-decoration: none; border-radius: 5px;">
-            <b>Lancer</b></a>
-        <a href="/class/rider"
-            style="padding: 10px; background: #ffffff; color: rgb(0, 0, 0); text-decoration: none; border-radius: 5px;">
-            <b>Rider</b></a>
-        <a href="/class/caster"
-            style="padding: 10px; background: #ffffff; color: rgb(0, 0, 0); text-decoration: none; border-radius: 5px;">
-            <b>Caster</b></a>
-        <a href="/class/assassin"
-            style="padding: 10px; background: #ffffff; color: rgb(0, 0, 0); text-decoration: none; border-radius: 5px;">
-            <b>Assassin</b></a>
-        <a href="/class/berserker"
-            style="padding: 10px; background: #ffffff; color: rgb(0, 0, 0); text-decoration: none; border-radius: 5px;">
-            <b>Berserker</b></a>
+    <h1 class="title">FGO Servants</h1>
+    <div class="class_category">
+        <a href="/class/all" class="button"><b>All Servants</b></a>
+        <a href="/class/saber" class="button"><b>Saber</b></a>
+        <a href="/class/archer" class="button"><b>Archer</b></a>
+        <a href="/class/lancer" class="button"><b>Lancer</b></a>
+        <a href="/class/rider" class="button"><b>Rider</b></a>
+        <a href="/class/caster" class="button"><b>Caster</b></a>
+        <a href="/class/assassin" class="button"><b>Assassin</b></a>
+        <a href="/class/berserker" class="button"><b>Berserker</b></a>
     </div>
 
-    <div style="margin-bottom: 20px;">
-        <a href="/class/ruler"
-            style="padding: 10px; background: #ffffff; color: rgb(0, 0, 0); text-decoration: none; border-radius: 5px;">
-            <b>Ruler</b></a>
-        <a href="/class/avenger"
-            style="padding: 10px; background: #ffffff; color: rgb(0, 0, 0); text-decoration: none; border-radius: 5px;">
-            <b>Avenger</b></a>
-        <a href="/class/moonCancer"
-            style="padding: 10px; background: #ffffff; color: rgb(0, 0, 0); text-decoration: none; border-radius: 5px;">
-            <b>Mooncancer</b></a>
-        <a href="/class/alterEgo"
-            style="padding: 10px; background: #ffffff; color: rgb(0, 0, 0); text-decoration: none; border-radius: 5px;">
-            <b>Alter Ego</b></a>
-        <a href="/class/foreigner"
-            style="padding: 10px; background: #ffffff; color: rgb(0, 0, 0); text-decoration: none; border-radius: 5px;">
-            <b>Foreigner</b></a>
-        <a href="/class/pretender"
-            style="padding: 10px; background: #ffffff; color: rgb(0, 0, 0); text-decoration: none; border-radius: 5px;">
-            <b>Pretender</b></a>
-        <a href="/class/shielder"
-            style="padding: 10px; background: #ffffff; color: rgb(0, 0, 0); text-decoration: none; border-radius: 5px;">
-            <b>Shielder</b></a>
-        <a href="/class/beast"
-            style="padding: 10px; background: #ffffff; color: rgb(0, 0, 0); text-decoration: none; border-radius: 5px;">
-            <b>Beast</b></a>
+    <div class="class_category">
+        <a href="/class/ruler" class="button"><b>Ruler</b></a>
+        <a href="/class/avenger" class="button"><b>Avenger</b></a>
+        <a href="/class/moonCancer" class="button"><b>Mooncancer</b></a>
+        <a href="/class/alterEgo" class="button"><b>Alter Ego</b></a>
+        <a href="/class/foreigner" class="button"><b>Foreigner</b></a>
+        <a href="/class/pretender" class="button"><b>Pretender</b></a>
+        <a href="/class/shielder" class="button"><b>Shielder</b></a>
+        <a href="/class/beast" class="button"><b>Beast</b></a>
     </div>
 
     <div class="grid">
         {% for servant in servants %}
-        <a href="/servant/{{ servant.servant_id }}/{{ servant.name }}" style="text-decoration: none; color: black;">
+        <a href=" /servant/{{ servant.servant_id }}/{{ servant.name }}" style="text-decoration: none; color: black;">
             <div class="card">
                 <img src="{{ servant.graph_url_asc1 }}" alt="{{ servant.name }}">
                 <p style="font-size: 18px; 
