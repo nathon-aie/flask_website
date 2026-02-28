@@ -29,6 +29,7 @@ class Servant(db.Model):
     traits = db.Column(db.String(500))  # เพิ่มคอลัมน์ traits เพื่อเก็บข้อมูล traits
     costume = db.Column(db.Text)  # เพิ่มคอลัมน์ costume เพื่อเก็บข้อมูล costume
     active_skill = db.Column(db.Text)
+    append_skill = db.Column(db.Text)
     ascension_materials = db.Column(db.Text)
     skill_materials = db.Column(db.Text)
     append_skill_materials = db.Column(db.Text)
@@ -120,11 +121,16 @@ def servant_detail(servant_id, name):
     if servant and servant.active_skill:
         skills = json.loads(servant.active_skill)
 
+    append_skills = []
+    if servant and servant.append_skills:
+        append_skills = json.loads(servant.append_skills)
+
     return render_template(
         "servant_detail.html",
         servant=servant,
         costume=costume_list,
         active_skills=skills,
+        append_skills=append_skills,
         ascension_materials=asc_mats,
         total_ascension_materials=total_asc_mats,
         skill_materials=skl_mats,

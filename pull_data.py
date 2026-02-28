@@ -103,6 +103,27 @@ def fetch_and_save_data():
                 processed_skills = sorted(processed_skills, key=lambda x: x["num"])
                 skills_json = json.dumps(processed_skills)
 
+                raw_append_skills = data.get("appendPassive", [])
+                processed_append_skills = []
+
+                for append in raw_append_skills:
+                    # ข้อมูลสกิลจะซ่อนอยู่ในคีย์ 'skill' อีกที
+                    skill_info = append.get("skill", {})
+                    processed_append_skills.append(
+                        {
+                            "num": append.get("num"),  # ลำดับ Append (1, 2, 3...)
+                            "name": skill_info.get("name"),  # ชื่อ Append Skill
+                            "icon": skill_info.get("icon"),  # รูปไอคอน
+                            "detail": skill_info.get("detail"),  # คำอธิบาย
+                        }
+                    )
+
+                # เรียงสกิลตามช่อง (1 -> 2 -> 3)
+                processed_append_skills = sorted(
+                    processed_append_skills, key=lambda x: x["num"]
+                )
+                append_skills_json = json.dumps(processed_append_skills)
+
                 new_servant = Servant(
                     servant_id=data["collectionNo"],
                     name=data["name"],
@@ -122,6 +143,7 @@ def fetch_and_save_data():
                     traits=traits_string,
                     costume=costume_string,
                     active_skill=skills_json,
+                    append_skill=append_skills_json,
                     ascension_materials=mats_json_string,
                     skill_materials=skill_mats_json,
                     append_skill_materials=apd_skill_mats_json,
