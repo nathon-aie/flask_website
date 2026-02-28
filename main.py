@@ -24,6 +24,7 @@ class Servant(db.Model):
     hp_base = db.Column(db.Integer)
     hp_max = db.Column(db.Integer)
     gender = db.Column(db.String(20))
+    attribute = db.Column(db.String(20))
     traits = db.Column(db.String(500))  # เพิ่มคอลัมน์ traits เพื่อเก็บข้อมูล traits
     costume = db.Column(db.Text)  # เพิ่มคอลัมน์ costume เพื่อเก็บข้อมูล costume
 

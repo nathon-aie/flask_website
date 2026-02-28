@@ -47,6 +47,7 @@ def fetch_and_save_data():
                     hp_base=data["hpBase"],
                     hp_max=data["hpMax"],
                     gender=data["gender"],
+                    attribute=data["attribute"],
                     traits=traits_string,
                     costume=costume_string,
                 )
