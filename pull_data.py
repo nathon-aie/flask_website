@@ -28,7 +28,6 @@ def fetch_and_save_data():
                 raw_traits = data.get("traits", [])
                 trait_names = [t["name"] for t in raw_traits]
                 traits_string = ", ".join(trait_names)
-
                 costume_dict = (
                     data.get("extraAssets", {}).get("charaGraph", {}).get("costume", {})
                 )
@@ -54,12 +53,10 @@ def fetch_and_save_data():
 
                 raw_skill_mats = data.get("skillMaterials", {})
                 processed_skill_mats = {}
-
                 for level, mat_data in raw_skill_mats.items():
                     # ปรับข้อความให้ดูง่าย เช่น "Lv. 1 → 2"
                     display_level = f"Lv. {level} → {int(level) + 1}"
                     level_items = []
-
                     for item_req in mat_data.get("items", []):
                         level_items.append(
                             {
@@ -69,17 +66,14 @@ def fetch_and_save_data():
                             }
                         )
                     processed_skill_mats[display_level] = level_items
-
                 skill_mats_json = json.dumps(processed_skill_mats)
 
                 raw_apd_skill_mats = data.get("appendSkillMaterials", {})
                 processed_apd_skill_mats = {}
-
                 for level, mat_data in raw_apd_skill_mats.items():
                     # ปรับข้อความให้ดูง่าย เช่น "Lv. 1 → 2"
                     display_level = f"Lv. {level} → {int(level) + 1}"
                     level_items = []
-
                     for item_req in mat_data.get("items", []):
                         level_items.append(
                             {
@@ -89,8 +83,25 @@ def fetch_and_save_data():
                             }
                         )
                     processed_apd_skill_mats[display_level] = level_items
-
                 apd_skill_mats_json = json.dumps(processed_apd_skill_mats)
+
+                raw_skills = data.get("skills", [])
+                processed_skills = []
+                for skill in raw_skills:
+                    processed_skills.append(
+                        {
+                            "num": skill.get("num"),  # ช่องของสกิล (1, 2 หรือ 3)
+                            "name": skill.get("name"),  # ชื่อสกิล
+                            "icon": skill.get("icon"),  # รูปไอคอนสกิล
+                            "detail": skill.get("detail"),  # คำอธิบายสกิล
+                            "cooldown": skill.get(
+                                "coolDown"
+                            ),  # คูลดาวน์ (เป็น List เช่น [7,7,7,6...])
+                        }
+                    )
+                # เรียงสกิลตามช่อง (Slot 1 -> 2 -> 3)
+                processed_skills = sorted(processed_skills, key=lambda x: x["num"])
+                skills_json = json.dumps(processed_skills)
 
                 new_servant = Servant(
                     servant_id=data["collectionNo"],
@@ -110,6 +121,7 @@ def fetch_and_save_data():
                     attribute=data["attribute"],
                     traits=traits_string,
                     costume=costume_string,
+                    active_skill=skills_json,
                     ascension_materials=mats_json_string,
                     skill_materials=skill_mats_json,
                     append_skill_materials=apd_skill_mats_json,

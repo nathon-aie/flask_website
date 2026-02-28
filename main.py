@@ -28,6 +28,7 @@ class Servant(db.Model):
     attribute = db.Column(db.String(20))
     traits = db.Column(db.String(500))  # เพิ่มคอลัมน์ traits เพื่อเก็บข้อมูล traits
     costume = db.Column(db.Text)  # เพิ่มคอลัมน์ costume เพื่อเก็บข้อมูล costume
+    active_skill = db.Column(db.Text)
     ascension_materials = db.Column(db.Text)
     skill_materials = db.Column(db.Text)
     append_skill_materials = db.Column(db.Text)
@@ -115,10 +116,15 @@ def servant_detail(servant_id, name):
     # แปลงจาก Dictionary กลับเป็น List เพื่อให้เอาไปวนลูปใน HTML ง่ายๆ
     total_apd_skl_mats = list(total_apd_skl_mats_dict.values())
 
+    skills = []
+    if servant and servant.active_skills:
+        skills = json.loads(servant.active_skills)
+
     return render_template(
         "servant_detail.html",
         servant=servant,
         costume=costume_list,
+        active_skills=skills,
         ascension_materials=asc_mats,
         total_ascension_materials=total_asc_mats,
         skill_materials=skl_mats,
