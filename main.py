@@ -117,8 +117,8 @@ def servant_detail(servant_id, name):
     total_apd_skl_mats = list(total_apd_skl_mats_dict.values())
 
     skills = []
-    if servant and servant.active_skills:
-        skills = json.loads(servant.active_skills)
+    if servant and servant.active_skill:
+        skills = json.loads(servant.active_skill)
 
     return render_template(
         "servant_detail.html",
