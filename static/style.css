@@ -71,6 +71,7 @@ body {
     align-items: flex-start;
 }
 
+/* ปรับให้กล่อง stat กว้างเต็ม 100% ของ content-wrapper (ซึ่งก็คือ 65% ของจอ) */
 .stat-box {
     width: 100%;
     background: #ffffff;
@@ -79,6 +80,7 @@ body {
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
     color: #333;
     box-sizing: border-box;
+    /* ป้องกันกล่องขยายเกินจาก padding */
 }
 
 .detail-img {

@@ -30,24 +30,27 @@
         <a href="/class/beast" class="button"><b>Beast</b></a>
     </div>
 
-    <div class="grid">
-        {% for servant in servants %}
-        <a href=" /servant/{{ servant.servant_id }}/{{ servant.name }}" style="text-decoration: none; color: black;">
-            <div class="card">
-                <img src="{{ servant.graph_url_asc1 }}" alt="{{ servant.name }}">
-                <p style="font-size: 18px; 
-                font-weight: bold; 
-                margin: 10px 0 5px;
-                ">ID:{{ servant.servant_id }} | {{ servant.name }}
-                </p>
-                <p style="font-size: 16px; 
-                color: gray; margin: 0;
-                font-weight: bold;
-                ">{{ servant.class_name.capitalize() }}
-                </p>
-            </div>
-        </a>
-        {% endfor %}
+    <div>
+        <div class="grid">
+            {% for servant in servants %}
+            <a href=" /servant/{{ servant.servant_id }}/{{ servant.name }}"
+                style="text-decoration: none; color: black;">
+                <div class="card">
+                    <img src="{{ servant.graph_url_asc1 }}" alt="{{ servant.name }}">
+                    <p style="font-size: 18px; 
+                    font-weight: bold; 
+                    margin: 10px 0 5px;
+                    ">ID:{{ servant.servant_id }} | {{ servant.name }}
+                    </p>
+                    <p style="font-size: 16px; 
+                    color: gray; margin: 0;
+                    font-weight: bold;
+                    ">{{ servant.class_name.capitalize() }}
+                    </p>
+                </div>
+            </a>
+            {% endfor %}
+        </div>
     </div>
 </body>
 
