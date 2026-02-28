@@ -58,6 +58,7 @@
             <div class="content-wrapper">
                 <h2 style="font-family: Agency FB, sans-serif;">Ascension Materials</h2>
                 <hr style="width: 100%;">
+
                 {% for level, items in ascension_materials.items() %}
                 <div class="stat-box" style="margin-bottom: 15px;">
                     <h3 style="margin-top: 0; font-family: Agency FB, sans-serif;">Ascension {{ level }}</h3>
@@ -75,7 +76,25 @@
                     </div>
                 </div>
                 {% endfor %}
+                {% if total_ascension_materials %}
+                <div class="stat-box"
+                    style="margin-bottom: 25px; background-color: #f0f8ff; border: 2px solid #b0d4ff; width: 100%; box-sizing: border-box;">
+                    <h3 style="margin-top: 0; font-family: Agency FB, sans-serif; color: #0056b3;">Total Required</h3>
+                    <div style="display: flex; gap: 15px; flex-wrap: wrap;">
 
+                        {% for item in total_ascension_materials %}
+                        <div style="text-align: center; width: 80px;">
+                            <img src="{{ item.icon }}" alt="{{ item.name }}"
+                                style="width: 50px; height: 50px; border-radius: 5px; box-shadow: 0 2px 4px rgba(0,0,0,0.2);">
+                            <p style="font-size: 14px; margin: 5px 0 0 0; line-height: 1.2;">{{ item.name }}</p>
+                            <p style="font-size: 15px; margin: 0; font-weight: bold; color: #d9534f;">x{{ item.amount }}
+                            </p>
+                        </div>
+                        {% endfor %}
+
+                    </div>
+                </div>
+                {% endif %}
             </div>
         </div>
         {% endif %}
@@ -84,7 +103,7 @@
         <div class="container" style="margin-top: 20px; margin-bottom: 50px;">
             <div class="content-wrapper">
                 <h2 style="font-family: Agency FB, sans-serif;">Skill Enhancement Materials</h2>
-
+                <hr style="width: 100%;">
                 {% for level, items in skill_materials.items() %}
                 <div class="stat-box" style="margin-bottom: 15px;">
                     <h3 style="margin-top: 0; font-family: Agency FB, sans-serif;">{{ level }}</h3>

@@ -55,8 +55,24 @@ def servant_detail(servant_id, name):
         costume_list = servant.costume.split(",")
 
     asc_mats = {}
+    total_asc_mats_dict = {}
     if servant and servant.ascension_materials:
         asc_mats = json.loads(servant.ascension_materials)
+        for level, items in asc_mats.items():
+            for item in items:
+                name = item["name"]
+                if name in total_asc_mats_dict:
+                    # ถ้ามีชื่อไอเทมนี้อยู่แล้ว ให้บวกจำนวนเพิ่ม
+                    total_asc_mats_dict[name]["amount"] += item["amount"]
+                else:
+                    # ถ้ายังไม่มี ให้สร้างใหม่
+                    total_asc_mats_dict[name] = {
+                        "name": name,
+                        "icon": item["icon"],
+                        "amount": item["amount"],
+                    }
+    # แปลงจาก Dictionary กลับเป็น List เพื่อให้เอาไปวนลูปใน HTML ง่ายๆ
+    total_asc_mats = list(total_asc_mats_dict.values())
 
     skl_mats = {}
     if servant and servant.skill_materials:
@@ -67,6 +83,7 @@ def servant_detail(servant_id, name):
         servant=servant,
         costume=costume_list,
         ascension_materials=asc_mats,
+        total_ascension_materials=total_asc_mats,
         skill_materials=skl_mats,
     )
 
