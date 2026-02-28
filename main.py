@@ -30,6 +30,7 @@ class Servant(db.Model):
     costume = db.Column(db.Text)  # เพิ่มคอลัมน์ costume เพื่อเก็บข้อมูล costume
     ascension_materials = db.Column(db.Text)
     skill_materials = db.Column(db.Text)
+    append_skill_materials = db.Column(db.Text)
 
 
 @app.route("/")
@@ -94,6 +95,26 @@ def servant_detail(servant_id, name):
     # แปลงจาก Dictionary กลับเป็น List เพื่อให้เอาไปวนลูปใน HTML ง่ายๆ
     total_skl_mats = list(total_skl_mats_dict.values())
 
+    apd_skl_mats = {}
+    total_apd_skl_mats_dict = {}
+    if servant and servant.append_skill_materials:
+        apd_skl_mats = json.loads(servant.append_skill_materials)
+        for level, items in apd_skl_mats.items():
+            for item in items:
+                name = item["name"]
+                if name in total_apd_skl_mats_dict:
+                    # ถ้ามีชื่อไอเทมนี้อยู่แล้ว ให้บวกจำนวนเพิ่ม
+                    total_apd_skl_mats_dict[name]["amount"] += item["amount"]
+                else:
+                    # ถ้ายังไม่มี ให้สร้างใหม่
+                    total_apd_skl_mats_dict[name] = {
+                        "name": name,
+                        "icon": item["icon"],
+                        "amount": item["amount"],
+                    }
+    # แปลงจาก Dictionary กลับเป็น List เพื่อให้เอาไปวนลูปใน HTML ง่ายๆ
+    total_apd_skl_mats = list(total_apd_skl_mats_dict.values())
+
     return render_template(
         "servant_detail.html",
         servant=servant,
@@ -102,6 +123,8 @@ def servant_detail(servant_id, name):
         total_ascension_materials=total_asc_mats,
         skill_materials=skl_mats,
         total_skill_materials=total_skl_mats,
+        append_skill_materials=apd_skl_mats,
+        total_append_skill_materials=total_apd_skl_mats,
     )
 
 
