@@ -52,6 +52,26 @@ def fetch_and_save_data():
                     processed_mats[display_level] = level_items
                 mats_json_string = json.dumps(processed_mats)
 
+                raw_skill_mats = data.get("skillMaterials", {})
+                processed_skill_mats = {}
+
+                for level, mat_data in raw_skill_mats.items():
+                    # ปรับข้อความให้ดูง่าย เช่น "Lv. 1 → 2"
+                    display_level = f"Lv. {level} → {int(level) + 1}"
+                    level_items = []
+
+                    for item_req in mat_data.get("items", []):
+                        level_items.append(
+                            {
+                                "name": item_req["item"]["name"],
+                                "icon": item_req["item"]["icon"],
+                                "amount": item_req["amount"],
+                            }
+                        )
+                    processed_skill_mats[display_level] = level_items
+
+                skill_mats_json = json.dumps(processed_skill_mats)
+
                 new_servant = Servant(
                     servant_id=data["collectionNo"],
                     name=data["name"],
@@ -71,6 +91,7 @@ def fetch_and_save_data():
                     traits=traits_string,
                     costume=costume_string,
                     ascension_materials=mats_json_string,
+                    skill_materials=skill_mats_json,
                 )
                 db.session.add(new_servant)
 

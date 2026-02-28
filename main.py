@@ -29,6 +29,7 @@ class Servant(db.Model):
     traits = db.Column(db.String(500))  # เพิ่มคอลัมน์ traits เพื่อเก็บข้อมูล traits
     costume = db.Column(db.Text)  # เพิ่มคอลัมน์ costume เพื่อเก็บข้อมูล costume
     ascension_materials = db.Column(db.Text)
+    skill_materials = db.Column(db.Text)
 
 
 @app.route("/")
@@ -48,17 +49,25 @@ def class_page(class_name):
 def servant_detail(servant_id, name):
     # ดึงข้อมูลจากฐานข้อมูลเฉพาะตัวที่ ID ตรงกับที่คลิกเข้ามา
     servant = Servant.query.filter_by(servant_id=servant_id).first()
+
     costume_list = []
     if servant and servant.costume:
         costume_list = servant.costume.split(",")
+
     asc_mats = {}
     if servant and servant.ascension_materials:
         asc_mats = json.loads(servant.ascension_materials)
+
+    skl_mats = {}
+    if servant and servant.skill_materials:
+        skl_mats = json.loads(servant.skill_materials)
+
     return render_template(
         "servant_detail.html",
         servant=servant,
         costume=costume_list,
         ascension_materials=asc_mats,
+        skill_materials=skl_mats,
     )
 
 
