@@ -121,6 +121,25 @@
                     </div>
                 </div>
                 {% endfor %}
+                {% if total_skill_materials %}
+                <div class="stat-box"
+                    style="margin-bottom: 25px; background-color: #f0f8ff; border: 2px solid #b0d4ff; width: 100%; box-sizing: border-box;">
+                    <h3 style="margin-top: 0; font-family: Agency FB, sans-serif; color: #0056b3;">Total Required</h3>
+                    <div style="display: flex; gap: 15px; flex-wrap: wrap;">
+
+                        {% for item in total_skill_materials %}
+                        <div style="text-align: center; width: 80px;">
+                            <img src="{{ item.icon }}" alt="{{ item.name }}"
+                                style="width: 50px; height: 50px; border-radius: 5px; box-shadow: 0 2px 4px rgba(0,0,0,0.2);">
+                            <p style="font-size: 14px; margin: 5px 0 0 0; line-height: 1.2;">{{ item.name }}</p>
+                            <p style="font-size: 15px; margin: 0; font-weight: bold; color: #d9534f;">x{{ item.amount }}
+                            </p>
+                        </div>
+                        {% endfor %}
+
+                    </div>
+                </div>
+                {% endif %}
 
             </div>
         </div>
